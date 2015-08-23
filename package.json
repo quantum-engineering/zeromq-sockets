@@ -1,0 +1,27 @@
+{
+  "name": "zeromq-debunked",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch-server": "babel app.js --watch --out-file app.bundle.js --source-maps",
+    "build-server": "babel app.js --out-file app.bundle.js",
+    "watch-producer": "babel producer.js --watch --out-file producer.bundle.js --source-maps",
+    "watch-worker": "babel worker.js --watch --out-file worker.bundle.js --source-maps",
+    "build-producer": "babel producer.js --out-file producer.bundle.js",
+    "build-worker": "babel worker.js --out-file worker.bundle.js",
+    "watch": "npm run watch-server & npm run watch-worker & npm run watch-producer",
+    "build": "npm run build-server & npm run build-worker & npm run build-producer",
+    "server": "nodemon producer.bundle.js & nodemon worker.bundle.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "zmq": "2.12.0"
+  },
+  "devDependencies": {
+    "babel": "5.8.21",
+    "nodemon": "^1.4.1"
+  }
+}
