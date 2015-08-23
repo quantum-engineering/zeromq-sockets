@@ -28,3 +28,8 @@ I'm using babel for development, because I'm using all the ES6 goodies, got too 
 **Client**
 
 *Still working on it*
+
+
+## The Plan
+
+I'm trying to find a solution for a chat client (client written in react + flux)
