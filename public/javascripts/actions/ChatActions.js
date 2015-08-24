@@ -20,14 +20,12 @@ export const ChatActions = {
 		})
 	},
 	create(payload) {
+    socket.emit("chat message", payload)
 		AppDispatcher.dispatch({
 			actionType: ChatConstants.MESSAGE_CREATE,
       message: payload
 		})
-    this.get(payload)
-    // socket.on("chat message", () => {
-    //   socket.emit(payload)
-    // })
+    // this.get(payload)
 	}
 
 }

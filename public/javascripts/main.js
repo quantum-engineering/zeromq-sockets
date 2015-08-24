@@ -25,9 +25,11 @@ class App extends React.Component {
         <section className="chat-message-container">
           <h4 style={{"display": "block"}}>Messages</h4>
 
-          {messages.map((msg) => {
-            return <p>{msg}</p>
-          })}
+          <ul>
+            {messages.map((msg) => {
+              return <li>{msg}</li>
+            })}
+          </ul>
 
         </section>
         <form onSubmit={this._onSubmit.bind(this)}>
