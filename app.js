@@ -27,26 +27,39 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Enable CORS middleware
 
 app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
+	res.header("Access-Control-Allow-Origin", "*");
+	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	next();
 });
 
 app.get("/", function(req, res) {
-  res.sendFile("public/index.html")
+	res.sendFile("public/index.html")
 });
 
 io.on("connection", function(socket) {
-  console.info("client connection established")
-  socket.on("chat message", function(msg) {
-    console.info("message:", msg)
-  })
+	console.info("client connection established")
+	socket.on("chat message", function(msg) {
+		console.info("message:", msg)
+	})
 });
+
+var chat = io
+	.of("/chat")
+	.on("connection", (socket) => {
+		console.info(`client ${socket.conn.id} connected to /chat`)
+		socket.emit("intro", {
+			message: "Welcome to Chat Channel Page with socket"
+		})
+		socket.on("message:create", (msg) => {
+			console.info(`new message created: ${msg}`)
+			socket.emit("message:received", {message: msg})
+		})
+	})
 
 
 server.listen(1337, function() {
-  var port = server.address().port;
-  console.info("App server is running on port:", port)
+	var port = server.address().port;
+	console.info("App server is running on port:", port)
 })
 
 module.exports = app;
