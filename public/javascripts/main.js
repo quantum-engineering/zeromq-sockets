@@ -1,4 +1,6 @@
 import React from "react"
+import io from "socket.io-client"
+const socket = io()
 
 class App extends React.Component {
   componentDidMount() {
@@ -10,7 +12,7 @@ class App extends React.Component {
         <section className="chat-message-container">
 
         </section>
-        <form onSubmit={this._onSubmit}>
+        <form onSubmit={this._onSubmit.bind(this)}>
           <input type="text" ref="message" />
           <br />
           <button type="submit">Submit</button>
@@ -21,6 +23,7 @@ class App extends React.Component {
   _onSubmit(e) {
     e.preventDefault()
     let message = React.findDOMNode(this.refs.message).value
+    socket.emit("chat message", message)
   }
 }
 
