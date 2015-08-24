@@ -46,13 +46,13 @@ io.on("connection", function(socket) {
 var chat = io
 	.of("/chat")
 	.on("connection", (socket) => {
-		console.info("client connected to /chat")
+		console.info(`client ${socket.conn.id} connected to /chat`)
 		socket.emit("intro", {
 			message: "Welcome to Chat Channel Page with socket"
 		})
-	})
-	.on("chat message created", (msg) => {
-		console.info("message:", msg)
+		socket.on("message:create", (msg) => {
+			console.info(`new message created: ${msg}`)
+		})
 	})
 
 

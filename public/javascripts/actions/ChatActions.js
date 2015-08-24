@@ -16,10 +16,16 @@ import io from "socket.io-client"
  */
 
 const currentLocation = window.location.origin
-const socket = io(`${currentLocation}/chat`)
+// const socket = io(`${currentLocation}/chat`)
+const chat = io.connect(`${currentLocation}/chat`)
 
 export const ChatActions = {
 	get(payload) {
+		chat.on("connect", () => {
+			chat.on("intro", (serverPayload) => {
+				console.info(`"${serverPayload.message}" came from server`)
+			})
+		})
 		payload = payload ? payload : null
 		console.info("ChatActions GET Triggered", payload)
 		AppDispatcher.dispatch({
@@ -29,7 +35,7 @@ export const ChatActions = {
 		})
 	},
 	create(payload) {
-		socket.emit("chat message", payload)
+		socket.emit("message:create", payload)
 		AppDispatcher.dispatch({
 			actionType: ChatConstants.MESSAGE_CREATE,
 			message: payload
