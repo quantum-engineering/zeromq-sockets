@@ -6,6 +6,8 @@
 import AppDispatcher from "../dispatcher/AppDispatcher"
 import {ChatConstants} from "../constants/ChatConstants"
 import request from "superagent"
+import io from "socket.io-client"
+const socket = io()
 
 export const ChatActions = {
 	get(payload) {
@@ -23,6 +25,9 @@ export const ChatActions = {
       message: payload
 		})
     this.get(payload)
+    // socket.on("chat message", () => {
+    //   socket.emit(payload)
+    // })
 	}
 
 }

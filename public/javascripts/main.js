@@ -1,8 +1,6 @@
 import React from "react"
 import {ChatStore} from "./stores/ChatStore"
 import {ChatActions} from "./actions/ChatActions"
-import io from "socket.io-client"
-const socket = io()
 
 class App extends React.Component {
   constructor(props) {
