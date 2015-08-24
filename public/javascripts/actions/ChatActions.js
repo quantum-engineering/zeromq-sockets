@@ -9,7 +9,7 @@ import request from "superagent"
 
 export const ChatActions = {
 	get(payload) {
-    payload = payload ? payload : []
+    payload = payload ? payload : null
     console.info("ChatActions GET Triggered", payload)
 		AppDispatcher.dispatch({
 			actionType: ChatConstants.MESSAGE_LOAD,
