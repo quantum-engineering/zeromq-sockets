@@ -12,6 +12,8 @@ var cookieParser = require("cookie-parser");
 var bodyParser = require("body-parser");
 
 var app = express();
+var server = require("http").createServer(app);
+var io = require("socket.io")(server);
 
 
 // Generate Fake Users with faker
@@ -34,9 +36,16 @@ app.get("/", function(req, res) {
   res.sendFile("public/index.html")
 });
 
-var server = app.listen(1337, function() {
-  var port = server.address().port;
-  console.log('App server is running on port:', port);
+io.on("connection", function(socket) {
+  socket.on("chat message", function(msg) {
+    console.info("message: ", msg)
+  })
 });
+
+
+server.listen(1337, function() {
+  var port = server.address().port;
+  console.info("App server is running on port:", port)
+})
 
 module.exports = app;
