@@ -1,6 +1,17 @@
 import React from "react"
 import {ChatStore} from "./stores/ChatStore"
 import {ChatActions} from "./actions/ChatActions"
+import io from "socket.io-client"
+
+
+/**
+ * Current Host using window location
+ * this is a hack obviously, because we need a
+ * separate host to serve the socket server side
+ */
+
+const ioHost = window.location.origin
+const chat = io.connect(`${ioHost}/chat`)
 
 class App extends React.Component {
 	constructor(props) {
