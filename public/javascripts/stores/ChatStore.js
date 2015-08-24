@@ -13,14 +13,15 @@ let CHANGE_EVENT = "change"
 let _messages = []
 
 function update(data) {
-	console.info("UPDATE", data)
-	return _messages.push(data)
+	if (data) {
+		return _messages.push(data)
+	}
 }
 
 function create(message) {
 	console.info("CREATE", message)
 	var messageThread = []
-	return messageThread.push(message)
+	return _messages.push(message)
 }
 
 export const ChatStore = assign({}, EventEmitter.prototype, {
@@ -75,6 +76,18 @@ AppDispatcher.register(function(action) {
 			create(action.message)
 			ChatStore.emitChange()
 			break;
+
+		case ChatConstants.THREAD_UPDATE:
+			console.info("REQUESTING THREAD UPDATE", action)
+			update(action.message)
+			ChatStore.emitChange()
+		break;
+
+		case ChatConstants.THREAD_UPDATE_SUCCESS:
+			console.info("REQUESTING THREAD UPDATE SUCCESSFUL", action)
+			update(action.message)
+			ChatStore.emitChange()
+		break;
 
 
 		default:

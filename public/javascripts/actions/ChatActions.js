@@ -16,15 +16,14 @@ import io from "socket.io-client"
  */
 
 const currentLocation = window.location.origin
-// const socket = io(`${currentLocation}/chat`)
 const chat = io.connect(`${currentLocation}/chat`)
 
 export const ChatActions = {
 	get() {
+		console.info(`GET ACTION is TRIGGERED`)
 		AppDispatcher.dispatch({
 			actionType: ChatConstants.MESSAGE_LOAD,
 			loading: true,
-			message: ""
 		})
 		chat.on("connect", () => {
 			chat.on("intro", (serverPayload) => {
@@ -34,6 +33,7 @@ export const ChatActions = {
 					message: serverPayload.message
 				})
 			})
+
 		})
 	},
 
@@ -71,3 +71,8 @@ export const ChatActions = {
 	}
 
 }
+
+chat.on("message:received", (serverPayload) => {
+	console.info("server payload triggered, that's why you're seeing me")
+	ChatActions.updateThread()
+})
