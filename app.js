@@ -52,6 +52,7 @@ var chat = io
 		})
 		socket.on("message:create", (msg) => {
 			console.info(`new message created: ${msg}`)
+			socket.emit("message:received", {message: msg})
 		})
 	})
 

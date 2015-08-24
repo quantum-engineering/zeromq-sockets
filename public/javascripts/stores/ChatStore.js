@@ -13,13 +13,13 @@ let CHANGE_EVENT = "change"
 let _messages = []
 
 function update(data) {
-  console.info("UPPATE")
+	console.info("UPDATE", data)
 	return _messages.push(data)
 }
 
 function create(message) {
 	console.info("CREATE", message)
-  var messageThread = []
+	var messageThread = []
 	return messageThread.push(message)
 }
 
@@ -30,7 +30,7 @@ export const ChatStore = assign({}, EventEmitter.prototype, {
 	 */
 
 	loadMessages: function() {
-    console.info("load messages")
+		console.info("load messages")
 		return _messages
 		this.emitChange()
 	},
@@ -55,7 +55,7 @@ export const ChatStore = assign({}, EventEmitter.prototype, {
 })
 
 AppDispatcher.register(function(action) {
-  var messages;
+	var messages;
 	switch(action.actionType) {
 
 		case ChatConstants.MESSAGE_LOAD:
@@ -64,9 +64,15 @@ AppDispatcher.register(function(action) {
 			ChatStore.emitChange()
 			break;
 
+		case ChatConstants.MESSAGE_LOAD_COMPLETE:
+			console.info("LOAD MESSAGE COMPLETED", action)
+			update(action.message)
+			ChatStore.emitChange()
+		break;
+
 		case ChatConstants.MESSAGE_CREATE:
 			console.info("CREATE Message TRIGGERED", action)
-      create(action.message)
+			create(action.message)
 			ChatStore.emitChange()
 			break;
 
