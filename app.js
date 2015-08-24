@@ -39,7 +39,7 @@ app.get("/", function(req, res) {
 io.on("connection", function(socket) {
   console.info("client connection established")
   socket.on("chat message", function(msg) {
-    console.info("message: ", msg)
+    console.info("message:", msg)
   })
 });
 
