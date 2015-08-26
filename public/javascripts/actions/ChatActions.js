@@ -26,7 +26,7 @@ export const ChatActions = {
       loading: true,
     })
     chat.on("connect", () => {
-      chat.on("intro", (serverPayload) => {
+      chat.on("message", (serverPayload) => {
         AppDispatcher.dispatch({
           actionType: ChatConstants.MESSAGE_LOAD_COMPLETE,
           loading: false,
@@ -41,14 +41,14 @@ export const ChatActions = {
     return new Promise((resolve, reject) => {
       if (payload) {
         console.info(`i'm here with the payload ${payload}`)
-        chat.emit("message:create", payload)
+        chat.emit("message", payload)
         AppDispatcher.dispatch({
           actionType: ChatConstants.MESSAGE_CREATE,
           message: payload
         })
         resolve(payload)
       } else {
-        console.info(`because you were empty`)
+        // console.info(`because you were empty`)
         reject("You have no message")
       }
     })
@@ -60,8 +60,8 @@ export const ChatActions = {
       actionType: ChatConstants.THREAD_UPDATE,
       loading: true
     })
-    chat.on("message:received", (serverPayload) => {
-      console.info(`message received ${serverPayload.message}`)
+    chat.on("message", (serverPayload) => {
+      console.info(`message received from server ${serverPayload.message}`)
       AppDispatcher.dispatch({
         actionType: ChatConstants.THREAD_UPDATE_SUCCESS,
         loading: false,

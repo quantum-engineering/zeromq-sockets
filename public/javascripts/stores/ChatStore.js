@@ -13,84 +13,84 @@ let CHANGE_EVENT = "change"
 let _messages = []
 
 function update(data) {
-	if (data) {
-		return _messages.push(data)
-	}
+  if (data) {
+    return _messages.push(data)
+  }
 }
 
 function create(message) {
-	console.info("CREATE", message)
-	var messageThread = []
-	return _messages.push(message)
+  console.info("CREATE", message)
+  var messageThread = []
+  return _messages.push(message)
 }
 
 export const ChatStore = assign({}, EventEmitter.prototype, {
 
-	/**
-	 * Get entire collection of messages
-	 */
+  /**
+   * Get entire collection of messages
+   */
 
-	loadMessages: function() {
-		console.info("load messages")
-		return _messages
-		this.emitChange()
-	},
+  loadMessages: function() {
+    console.info("load messages")
+    return _messages
+    this.emitChange()
+  },
 
-	emitChange: function() {
-		this.emit(CHANGE_EVENT);
-	},
+  emitChange: function() {
+    this.emit(CHANGE_EVENT);
+  },
 
-	/**
-	 * @param {function} callback
-	 */
-	addChangeListener: function(callback) {
-		this.on(CHANGE_EVENT, callback);
-	},
+  /**
+   * @param {function} callback
+   */
+  addChangeListener: function(callback) {
+    this.on(CHANGE_EVENT, callback);
+  },
 
-	/**
-	 * @param {function} callback
-	 */
-	removeChangeListener: function(callback) {
-		this.removeListener(CHANGE_EVENT, callback);
-	}
+  /**
+   * @param {function} callback
+   */
+  removeChangeListener: function(callback) {
+    this.removeListener(CHANGE_EVENT, callback);
+  }
 })
 
 AppDispatcher.register(function(action) {
-	var messages;
-	switch(action.actionType) {
+  var messages;
+  switch(action.actionType) {
 
-		case ChatConstants.MESSAGE_LOAD:
-			console.info("LOAD MESSAGE TRIGGERED", action)
-			update(action.message)
-			ChatStore.emitChange()
-			break;
+    case ChatConstants.MESSAGE_LOAD:
+      console.info("LOAD MESSAGE TRIGGERED", action)
+      update(action.message)
+      ChatStore.emitChange()
+      break;
 
-		case ChatConstants.MESSAGE_LOAD_COMPLETE:
-			console.info("LOAD MESSAGE COMPLETED", action)
-			update(action.message)
-			ChatStore.emitChange()
-		break;
+    case ChatConstants.MESSAGE_LOAD_COMPLETE:
+      console.info("LOAD MESSAGE COMPLETED", action)
+      update(action.message)
+      ChatStore.emitChange()
+    break;
 
-		case ChatConstants.MESSAGE_CREATE:
-			console.info("CREATE Message TRIGGERED", action)
-			create(action.message)
-			ChatStore.emitChange()
-			break;
+    case ChatConstants.MESSAGE_CREATE:
+      console.info("CREATE Message TRIGGERED", action)
+      create(action.message)
+      ChatStore.emitChange()
+      break;
 
-		case ChatConstants.THREAD_UPDATE:
-			console.info("REQUESTING THREAD UPDATE", action)
-			update(action.message)
-			ChatStore.emitChange()
-		break;
+    case ChatConstants.THREAD_UPDATE:
+      console.info("REQUESTING THREAD UPDATE", action)
+      update(action.message)
+      ChatStore.emitChange()
+    break;
 
-		case ChatConstants.THREAD_UPDATE_SUCCESS:
-			console.info("REQUESTING THREAD UPDATE SUCCESSFUL", action)
-			update(action.message)
-			ChatStore.emitChange()
-		break;
+    case ChatConstants.THREAD_UPDATE_SUCCESS:
+      console.info("REQUESTING THREAD UPDATE SUCCESSFUL", action)
+      update(action.message)
+      ChatStore.emitChange()
+    break;
 
 
-		default:
-		// no op
-	}
+    default:
+    // no op
+  }
 })

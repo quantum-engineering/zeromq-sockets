@@ -9,7 +9,7 @@ import io from "socket.io-client"
  * this is a hack obviously, because we need a
  * separate host to serve the socket server side
  */
- 
+
 // const ioHost = window.location.origin
 // const chat = io.connect(`${ioHost}/chat`)
 
@@ -21,7 +21,13 @@ class App extends React.Component {
     }
   }
   componentDidMount() {
-    console.info("rendered")
+    // console.info("rendered")
+    // chat.on("connect", () => {
+    //   // chat.emit("")
+    //   chat.on("message", (msg) => {
+    //     console.info("msg received from component", msg.message)
+    //   })
+    // })
     ChatActions.get()
     ChatStore.addChangeListener(this._onChange.bind(this))
   }
@@ -30,7 +36,6 @@ class App extends React.Component {
   }
   render() {
     var messages = this.state.messages ? this.state.messages : [];
-    console.info(messages)
     return (
       <main>
         <section className="chat-message-container">
